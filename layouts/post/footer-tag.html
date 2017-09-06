@@ -1,0 +1,44 @@
+<ul class="stats">
+    {{ if isset .Params "tags" }}
+        {{ $tagCount := (len .Params.tags) }}
+
+        <!--
+            Set the title before displaying the tags associated with this post.
+            The title will use the variables from the Tags menu set in the Config.
+            If the Tags menu was not set then use the default values instead.
+        -->
+        {{ if ge $tagCount 1 }}
+            <li>
+                {{ $tagMenu := (where .Site.Menus.main "Name" "Tags") }}
+                {{ if ne (len $tagMenu) 0 }}
+                    {{ $tagMenu := index $tagMenu 0 }}
+
+                    {{ $.Scratch.Set "tagUrl" $tagMenu.URL }}
+
+                    {{ if ne $tagMenu.Identifier "" }}
+                        <i class="{{ . }}">&nbsp; {{ $tagMenu.Name }}</i>
+                    {{ else }}
+                        {{ if gt $tagCount 1 }}
+                            {{ $tagMenu.Name }}
+                        {{ else }}
+                            {{ $tagMenu.Name | singularize }}
+                        {{ end }}
+                    {{ end }}
+                {{ else }}
+                    {{ $.Scratch.Set "tagUrl" "/tags/" }}
+
+                    {{ if gt $tagCount 1 }}
+                        Tags
+                    {{ else }}
+                        Tag
+                    {{ end }}
+                {{ end }}
+            </li>
+        {{ end }}
+    {{ end }}
+
+    <!-- Display the tags associated with this article -->
+    {{ range .Params.tags }}
+        <li><a href='{{ add ($.Scratch.Get "tagUrl") . | urlize }}'>{{ . }}</a></li>
+    {{ end }}
+</ul>

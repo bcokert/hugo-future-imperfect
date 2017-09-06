@@ -57,7 +57,7 @@ pre {
 }
 
     #sidebar #recent-posts ul.posts time,
-    #sidebar #categories ul.posts li header,
+    #sidebar #tags ul.posts li header,
     #sidebar .blurb p {
         /* Theoretically for IE 8 & 9 (more valid) */
         /* ...but not required as filter works too */
@@ -150,16 +150,14 @@ blockquote p {
 }
 
 .image.center-image {
-    max-width: 50%;
+    max-width: 100%;
+    display: block;
+    clear: both;
 }
-    .image.center-image img {
-        width: 100%;
-    }
-        .image.center-image {
-            display: block;
-            margin: auto;
-            clear: both;
-        }
+
+.image.center-image img {
+    margin: auto;
+}
 
 .pagination .button {
     background: white;
