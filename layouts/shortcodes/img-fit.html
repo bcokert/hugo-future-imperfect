@@ -25,31 +25,37 @@
      position 5
         same as position 2
      ...
+     position n-5
+
      position n-4
 
      position n-3
 
      position n-2
-
-     position n-1
         Can pass in the following values:
             title: will use /img/LinkTitle as the path
             date: will use /img/year/month as the path
             /path/to/img: can pass in the explicit path to the image
+
+    position n-1
+      max width, as a string "400px" or "40%"
 -->
-{{ $numOfParams := sub (len .Params) 1 }}
-{{ if ge $numOfParams 3 }}
-    {{ $.Scratch.Set "path" (.Get $numOfParams) }}
+{{ $imageParams := sub (len .Params) 2 }}
+{{ if ge $imageParams 4 }}
+    {{ $.Scratch.Set "path" (.Get $imageParams) }}
+    {{ $.Scratch.Set "max" (.Get (add $imageParams 1)) }}
 
     {{ $.Scratch.Set "structType" "shortcode" }}
     {{ partial "img-path" . }}
-    {{ $path := $.Scratch.Get "path" }}
 
-    <div class="box alt">
+    {{ $path := $.Scratch.Get "path" }}
+    {{ $max := $.Scratch.Get "max"}}
+
+    <div class="box alt" style="max-width: {{ $max }}">
         <div class="row uniform">
         {{ $.Scratch.Set "count" 1 }}
         {{ $.Scratch.Set "imgFile" "" }}
-        {{ range first $numOfParams .Params }}
+        {{ range first $imageParams .Params }}
             {{ if eq ($.Scratch.Get "count") 1 }}
                 <div class="{{ . }}">
             {{ else if eq ($.Scratch.Get "count") 2 }}
